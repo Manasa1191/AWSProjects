@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+ <script>
+        // callAPI function that takes the base and exponent numbers as parameters
+        var callAPI = (monvalue,dayvalue,yearvalue)=>{
+            // instantiate a headers object
+            var myHeaders = new Headers();
+            // add content type header to object
+            myHeaders.append("Content-Type", "application/json");
+            // using built in JSON utility package turn object to string and store in a variable
+            var raw = JSON.stringify({"monvalue":monvalue,"dayvalue":dayvalue,"yearvalue":yearvalue});
+            // create a JSON object with parameters for API call and store in a variable
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            // make API call with parameters and use promises to get response
+            fetch("https://07nv1us4b3.execute-api.us-west-2.amazonaws.com/dev", requestOptions)
+            .then(response => response.text())
+            .then(result => alert(JSON.parse(result).body))
+            .catch(error => console.log('error', error));
+        }
+    </script>
+
+
+
+
+
+
+
+
+	<head>
+		<meta charset = "UTF-8">
+		<title>How-many days-old are you?</title>
+	</head>
+	<body>
+
+		<h1>How -many days- old are you?</h1>
+		<br>
+		<form>
+			<label for="monvalue">Enter Month:</label>
+			<input type="text" id="monvalue" name="monvalue">
+			<br><br>
+			<label for="dayvalue">Enter day:</label>
+			<input type="text" id="dayvalue" name="dayvalue">
+			<br><br>
+			<label for="yearvalue">Enter Year:</label>
+			<input type="text" id="yearvalue" name="yearvalue">
+			<br>
+			<button type="button" onclick="callAPI(document.getElementById('monvalue').value, document.getElementById('dayvalue').value, document.getElementById('yearvalue').value)">Submit</button>
+		</form>
+
+	</body>
+</html>
